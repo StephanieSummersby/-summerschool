@@ -8,7 +8,7 @@ function draw() {
   if (mouseIsPressed) {
     fill(col);
   } else {
-    fill("white");
+    fill("violet");
   }
   ellipse(mouseX, mouseY, 80, 80);
 }
