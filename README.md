@@ -1,6 +1,4 @@
-# -summerschool
-Summer school repository
+# Introduction to Tidyverse, Data wrangling, Exploratory data analysis and visualization
 
-#making changes to test git commit 
 
-#changes hgfhf
+

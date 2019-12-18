@@ -1,0 +1,5 @@
+view_history,rt,trial_type,trial_index,time_elapsed,internal_node_id,stimulus,button_pressed,response
+"[{""page_index"":0,""viewing_time"":4019.000000000002},{""page_index"":1,""viewing_time"":1404},{""page_index"":2,""viewing_time"":993.9999999999982}]",6418,instructions,0,6422,0.0-0.0-0.0,NA,NA,NA
+NA,1817,html-button-response,1,9242,0.0-0.0-1.0,13 + 23 = 36,0,NA
+NA,1189,html-button-response,2,11066,0.0-0.0-2.0,2 + 2 = 5,1,NA
+NA,4823,html-slider-response,3,16392,0.0-0.0-3.0,How likely is it that the suspect is guilty?,NA,18

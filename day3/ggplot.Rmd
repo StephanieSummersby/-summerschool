@@ -1,0 +1,109 @@
+---
+title: "ggplot"
+author: Stephanie Summersby
+date: 18th December 2019
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r library}
+library(here)
+library(skimr)
+library(tidyverse)
+library(RColorBrewer)
+```
+
+<!--load data-->
+
+```{r load data}
+loc <- here("data", "frames_ex2.csv")
+frames <- read_csv(file=loc)
+```
+# show data
+```{r frames}
+frames
+```
+
+<!---create frames small-->
+```{r framessmall}
+frames_small <- frames %>%
+  group_by(
+    age, condition, sample_size
+  ) %>%
+  summarise(
+    response = mean(response)
+  ) %>%
+  ungroup()
+frames_small
+```
+
+<!---ggplot-->
+```{r ggplot}
+ggplot(
+  data = frames_small, 
+  mapping = aes(
+    x = age, 
+    y = response,
+    colour = condition
+  ) #property of data
+) +
+  geom_point(size = 3) + #property of picture 
+  geom_rug()+
+  facet_wrap(~sample_size)+
+  theme_bw() +
+  labs(
+  title = "Response by age",
+  subtitle = "Varying condition and sample size",
+  x = "Age (years)",
+  y = "Response (1=no, 9=yes)"
+)
+  #facet_grid(condition~sample_size) #~ also works instead of vars. facet grid for two dimensions. x and y
+
+```
+
+<<!--create frames test-->>
+
+```{r framestest}
+frames_test <- frames %>%
+  group_by(
+    test_item, condition, sample_size
+  ) %>%
+  summarise(
+    response = mean(response)
+  ) %>%
+  ungroup()
+frames_test
+```
+
+```{r graph}
+ggplot(
+  data = frames_test,
+  mapping = aes(
+    x = test_item,
+    y = response,
+    colour = sample_size,
+    group = sample_size
+  ) 
+) + 
+theme_bw() +
+geom_line() +
+facet_wrap(vars(condition))
+```
+
+```{r histogram}
+
+ggplot(
+  data = frames,
+  mapping = aes(
+    x = response,
+    fill = sample_size
+  ) 
+) + 
+geom_histogram() +
+#scale_fill_brewer(palette = "PuRd")+
+scale_fill_brewer(brewer.pal(4, "Set3"))+
+facet_wrap(vars(condition))
+```
+

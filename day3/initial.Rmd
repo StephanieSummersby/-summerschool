@@ -1,0 +1,126 @@
+---
+#r markdown yaml headings
+title: "initial"
+author: Stephanie Summersby
+date: 18th December 2019
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Getting started 
+
+```{r load packages, message=FALSE}
+library(here)
+library(tidyverse)
+library(skimr)
+```
+
+## Load the data 
+
+```{r load data}
+loc <- here("data", "frames_ex2.csv")
+frames <- read_csv(file=loc)
+```
+
+<!--different ways to preview data-->
+
+```{r printframes}
+frames
+```
+
+```{r glimpseframes}
+glimpse(frames)
+```
+
+```{r skimframes}
+skim(frames)
+```
+
+```{r groupingsimple}
+frames %>%
+  group_by(test_item, sample_size, n_obs, condition) %>%
+  summarise(response = mean(response))%>%
+  ungroup()
+```
+
+``` {r grouping2}
+frames %>% 
+  group_by(test_item) %>%
+  summarise(
+    mean_resp = mean(response),
+    sd_resp = sd(response),
+    count = n()
+  ) %>%
+  ungroup()
+```
+
+<!--lets you select whatever row of the dataset you want-->
+
+``` {r filter}
+average_response <- frames %>%
+  group_by(test_item, sample_size, n_obs, condition) %>%
+  summarise(response = mean(response)) %>%
+  ungroup()
+average_response %>%
+  filter(sample_size == "small")
+```
+
+<!--like sort in excel-->
+
+```{r arrange}
+
+average_response %>%
+  filter(sample_size == "small") %>%
+  arrange(condition)
+```
+
+<!--selects columns to view-->
+
+```{r select}
+average_response %>%
+  filter(sample_size == "small") %>%
+  arrange(condition) %>%
+  select(test_item, condition, response)
+```
+ 
+ <!--just assigning the select table to a variable-->
+ 
+```{r assignment}
+
+average_response_small <- average_response %>%
+  filter(sample_size == "small") %>%
+  arrange(condition) %>%
+  select(test_item, condition, response)%>%
+  glimpse()
+
+```
+
+<!-- mutate creates new variables -->
+
+```{r mutate}
+average_response_small <- average_response_small %>%
+  mutate(generalisation = response/9)%>%
+  select(-response)
+
+average_response_small
+
+```
+
+```{r spread}
+wide_avrs <- average_response_small %>%
+  spread(key = condition, value = generalisation)
+
+wide_avrs
+```
+
+
+```{r gather}
+
+wide_avrs %>% gather(
+  key = "condition", value = "generalisation", 
+  category, property)
+```
+
